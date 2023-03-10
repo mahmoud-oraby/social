@@ -1,0 +1,65 @@
+{% url 'home_view' as path_to_home %}
+<div class="ui inverted menu nav mb-7">
+    <div class="ui container">
+    <a href="{{path_to_home}}" class="{% if request.path == path_to_home  %} action {% endif %} item">
+        <h3>bffbook</h3>
+    </a>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'main_post_view' %}" class="{% if request.path == main_post_view %} active {% endif %} item">
+        Board
+    </a>
+    {% endif %}
+
+    <div class="right menu">
+        {% if request.user.is_authenticated %}
+        <div class="item">
+            <div class="ui floating dropdown icon button teal"> Friends
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a href="{% url 'all_profiles_view' %}" class="{% if request.path == all_profiles_view %} active{% endif %} item">
+                        All Profiles
+                    </a>
+                    {% comment %} <a href="{% url 'invite_profiles_view' %}" class="{% if request.user == invite_profiles_view %}active{% endif %}  item">
+                        Send Invites
+                    </a> {% endcomment %}
+                    <a href="{% url 'my_invites_view' %}" class="{% if request.path == my_invites_view %} active{% endif %} item">
+                        Received Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+            <div class="item">
+            <form action="" method="GET">
+                <div class="ui action left icon input">
+                <input class="prompt" type="text" name='q' placeholder="name of a friend...">
+                <i class="search icon"></i>
+                <button type='submit' class="ui button">Search</button>
+                </div>
+            </form>
+            </div>
+        
+            <a href="{% url 'my_profile_view' %}" class="{% if request.path == my_profile_view %} active{% endif %} item">
+            <img class='ui avatar image' src="{{picture.url}}" alt="">
+            {{ request.user }}
+            </a>
+
+            <a href="{% url 'logout' %}" class="ui item">
+                Logout
+            </a>
+        {% else %}
+        <a href="{% url 'login' %}" class="ui item">
+                Login
+            </a>
+        {% endif %}
+    </div>
+</div>
+</div>
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $('.ui.dropdown').dropdown()
+        })
+    </script>
+{% endblock scripts %}
+
