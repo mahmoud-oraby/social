@@ -40,6 +40,7 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(default='No bio....', max_length=400)
     email = models.EmailField(max_length=254, blank=True)
@@ -52,6 +53,9 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     
     objects=ProfileManager()
+    
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
     
     def __str__(self):
         return f'{self.user.username}-{self.created.strftime("%d-%m-%y")}'

@@ -113,9 +113,9 @@ class ProfileListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         search_friends = self.request.GET.get('q')
         if search_friends:
-            qs=Profile.objects.filter(Q(first_name__contains=search_friends) )
+            qs=Profile.objects.filter(Q(first_name__contains=search_friends.strip()) | Q(last_name__contains=search_friends.strip))
         else:
-            qs = Profile.objects.get_all_profiles(self.request.user)
+            qs = Profile.objects.get_all_profiles(self.request.user).order_by('-created')
         return qs
     
     def get_context_data(self, **kwargs):
