@@ -9,8 +9,6 @@ from .models import Profile, Relationship
 # instance = name of User
 # created = bool
 def post_save_create_profile(sender, instance, created, **kwargs):
-    # print('sender', sender)
-    # print('instance', instance)
     if created:
         Profile.objects.create(user=instance)
 
