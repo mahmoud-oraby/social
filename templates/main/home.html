@@ -12,10 +12,12 @@
 {% if user.is_authontcated %}
     <div>{{user}}</div>
 {% else %}
-<ul>
-    <li><a class='text-decoration-none fs-3' href="{% url 'signup' %}">Create an account </a></li>
-    <li><a class='text-decoration-none fs-3' href="{% url 'login' %}">Already you have an account</a></li>
-</ul>
+{% if not request.user.is_authenticated %}
+    <ul>
+        <li><a class='text-decoration-none fs-3' href="{% url 'signup' %}">Create an account </a></li>
+        <li><a class='text-decoration-none fs-3' href="{% url 'login' %}">Already you have an account</a></li>
+    </ul>
+{% endif %}
 {% endif %}
 
 {% endblock content %} 

@@ -19,11 +19,9 @@
       </div>
       <div class="description">
         <div class="ui header">Provide som additional/newest info about you</div>
-        <form action="" method="post" class='ui form' enctype='multipart/form-data'>
+        <form action="" method="POST" class='ui form' enctype='multipart/form-data'>
             {% csrf_token %}
             {{form.as_p}}
-            
-        
       </div>
     </div>
     <div class="actions">

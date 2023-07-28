@@ -8,4 +8,4 @@ class ProfileModelForm(forms.ModelForm):
         """Meta definition for ProfileModelform."""
 
         model = Profile
-        fields = ('first_name','last_name','bio','avatar')
+        fields = ['first_name','last_name','bio','avatar']

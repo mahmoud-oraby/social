@@ -13,11 +13,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 @login_required
 def my_profile_view(request):
     profile=Profile.objects.get(user=request.user)
-    form=ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
+    
     confirm=False
     if request.method == 'POST':
+        form=ProfileModelForm(request.POST , request.FILES, instance=profile )
         if form.is_valid():
+            form.save()
             confirm=True
+    form=ProfileModelForm()
     return render(request,'profiles/my_profile.html',{
         'profile':profile,
         'form':form,
