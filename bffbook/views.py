@@ -1,7 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 def home(request):
     user = request.user
-    return render(request, 'main/home.html', {
-        'user': user,
-    })
+    return redirect('login')

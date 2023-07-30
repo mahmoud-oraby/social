@@ -34,6 +34,9 @@
     {% endblock scripts %}
    
    <!--Custom js ADD-->
+   <script>
+		document.querySelectorAll('form input').forEach(el => el.classList.add('form-control'))
+	</script>
    <script  src="{% static 'main.js' %}"></script>
 
   </body>

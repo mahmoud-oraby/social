@@ -11,7 +11,7 @@
     <br>
     <div class="row">
       <div class="four wide column">
-        <img class='ui medium rounded image' src="{{object.avatar.url}}" alt="">
+        <img class='ui medium rounded image' style="width: 150px;height: 150px;border-radius: 50%;" src="{{object.avatar.url}}" alt="">
         <h1>{{object.user}}</h1>
         <div class="ui vertical fluid menu">
           <div class="item">
@@ -59,9 +59,39 @@
         {% if len_posts %}
           
           {% for post in posts %}
-            <div class="segment ui flude">
-              {{post.content}}
+          <div class="ui fluid card" style="width: fit-content;">
+            <div class="ui fluid image">
+                {% if post.image %}
+                    <img style="width: 500px; height: 500px; border-radius:1% ;" src={{post.image.url}}>
+                {% endif %}
             </div>
+            <div class="content">
+                <p> {{ post.content }} </p>
+                <div class="right floated">
+                </div>
+                <i class="comment icon"></i>
+                <span> {{ post.num_comments }} comments</span>
+            </div>
+            <div class="extra content">
+                <div class="mb-5">
+                
+                </div>
+                <button class="cmt_btn ui button mb-5">show / hide comments</button>
+                <div class="comment-box">
+                {% if post.comment_set.all %}
+                    {% for c in post.comment_set.all %}
+                    
+                        <div class="ui segment mb-5">
+                            <img class="ui avatar image" src={{c.user.avatar.url}}>
+                            <span>{{ c.user }}</span>
+                            <div class='mt-5'>{{ c.body }}</div>
+                        </div>
+                    
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
           {% endfor %}
             
         {% else %}
@@ -71,3 +101,60 @@
     </div>
   </div>
 {% endblock content %}
+
+
+{% block scripts %} 
+    <script>
+        $( document ).ready(function() {
+            let display = false
+            $(".cmt_btn").click(function () {
+                if (display===false) {
+                    $(this).next(".comment-box").show("slow");
+                    display=true
+                } else {
+                    $(this).next(".comment-box").hide("slow");
+                    display=false
+                }  
+            });
+
+            $('.like-form').submit(function(e){
+                e.preventDefault()
+                
+                const post_id = $(this).attr('id')
+                
+                const likeText = $(`.like-btn${post_id}`).text()
+                const trim = $.trim(likeText)
+
+                const url = $(this).attr('action')
+                
+                let res;
+                const likes = $(`.like-count${post_id}`).text()
+                const trimCount = parseInt(likes)
+                
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'post_id':post_id,
+                    },
+                    success: function(response) {
+                        if(trim === 'Unlike') {
+                            $(`.like-btn${post_id}`).text('Like')
+                            res = trimCount - 1
+                        } else {
+                            $(`.like-btn${post_id}`).text('Unlike')
+                            res = trimCount + 1
+                        }
+
+                        $(`.like-count${post_id}`).text(res)
+                    },
+                    error: function(response) {
+                        console.log('error', response)
+                    }
+                })
+
+            })
+        });
+    </script>
+{% endblock scripts %}

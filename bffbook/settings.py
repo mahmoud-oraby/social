@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 ]
 
 
-LOGOUT_REDIRECT_URL='home_view'
+LOGOUT_REDIRECT_URL='login'
 LOGIN_REDIRECT_URL='/posts'
 
 

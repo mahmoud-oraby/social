@@ -1,36 +1,8 @@
 {% load widget_tweaks %}
 
-{% if form.non_field_errors %}
-  <div class="alert alert-danger" role='alerts'>
-    {% for error in form.non_field_errors %}
-    <p {% if forloop.last %} class="mb-0" {% endif %}>{{error}}</p>
-    {% endfor %}
-  </div>
-{% endif %}
-
 {% for field in form %}
-<div class='form-group'  >
+<div class=' {% if field.errors  %} errors {% endif %}'  >
   {{field.label_tag}}
-{% comment %} if has data or no  {% endcomment %}
-  {% if form.is_bound %}
-{% comment %} if has errors {% endcomment %}
-    {% if field.errors %}
-      {% render_field field class='form-control is-invalid' %}
-      {% for error in field.errors %}
-        <div class='invalid-feedback'>{{error}}</div>
-    {% endfor %}
-{% comment %} if not has errors {% endcomment %}
-    {% else %}
-      {% render_field field class='form-control is-valid' %}
-    {% endif %}
-{% comment %} if not has errors  {% endcomment %}
-  {% else %}
-    {% render_field field class='form-control mb-4' %}
-  {% endif %}
+  {{field}}
 </div>
-{% if field.help_text %}
-<small class='form-text text-muted'>
-  {{field.help_text}}
-</small>
-{% endif %}
 {% endfor %}
