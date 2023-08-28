@@ -10,18 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4hy05%i5!nokw2usojd^bu6*vi)o1c1+ig*5z392eb_#vp$)^0'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,9 +49,8 @@ INSTALLED_APPS = [
 ]
 
 
-LOGOUT_REDIRECT_URL='login'
-LOGIN_REDIRECT_URL='/posts'
-
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = '/posts'
 
 
 MIDDLEWARE = [
